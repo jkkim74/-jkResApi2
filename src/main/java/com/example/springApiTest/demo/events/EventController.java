@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.net.URI;
 
@@ -15,11 +16,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 
 @Controller
-@RequestMapping(value="/api/events",produces = MediaTypes.HAL_JSON_VALUE)
+@RequestMapping(value="/api/events",produces = MediaTypes.HAL_JSON_VALUE+ ";charset=utf-8")
 public class EventController {
 
     @Autowired
     EventRepository eventRepository;
+
+
 
     @PostMapping
     public ResponseEntity createEvent(@RequestBody Event event){
@@ -29,4 +32,8 @@ public class EventController {
         URI createdUri = linkTo(EventController.class).slash(newEvent.getId()).toUri();
         return ResponseEntity.created(createdUri).body(newEvent);
     }
+
+
+
+
 }
