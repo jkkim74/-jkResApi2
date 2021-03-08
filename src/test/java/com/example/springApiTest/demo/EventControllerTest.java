@@ -1,6 +1,7 @@
 package com.example.springApiTest.demo;
 
 
+import com.example.springApiTest.demo.common.TestDescription;
 import com.example.springApiTest.demo.events.Event;
 import com.example.springApiTest.demo.events.EventDto;
 import com.example.springApiTest.demo.events.EventRepository;
@@ -46,6 +47,7 @@ public class EventControllerTest {
     ObjectMapper objectMapper;
 
     @Test
+    @TestDescription("입력받은 값만 나오도록 하는 테스트")
     public void createEventTest() throws Exception {
         EventDto event = EventDto.builder()
                 .name("Spring")
@@ -102,8 +104,22 @@ public class EventControllerTest {
         ;
     }
 
+
     @Test
-    @DisplayName("입력 값이 비어있는 경우에 에러가 발생하는 테스트")
+    @TestDescription("입력값이 빈경우, 배드리퀘스트 테스트")
+    public void createEvent_Bad_Request_Empty() throws Exception {
+        EventDto eventDto = EventDto.builder()
+                .build();
+
+        this.mockMvc.perform(post("/api/events")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(eventDto)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+    
+    @Test
+    @TestDescription("입력값이 잘못된 항목에 대한 테스트")
     public void createEvent_Bad_Request_Empty_Input() throws Exception {
         EventDto eventDto = EventDto.builder()
                 .name("Spring")
