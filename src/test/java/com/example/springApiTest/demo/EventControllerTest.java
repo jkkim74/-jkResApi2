@@ -105,11 +105,23 @@ public class EventControllerTest {
     @Test
     @DisplayName("입력 값이 비어있는 경우에 에러가 발생하는 테스트")
     public void createEvent_Bad_Request_Empty_Input() throws Exception {
-        EventDto eventDto = EventDto.builder().build();
+        EventDto eventDto = EventDto.builder()
+                .name("Spring")
+                .description("REST Api Development with Spring")
+                .beginEnrollmentDateTime(LocalDateTime.of(2021, 03, 01, 13, 00))
+                .closeEnrollmentDateTime(LocalDateTime.of(2021, 03, 05, 23, 59))
+                .beginEventDateTime(LocalDateTime.of(2021, 03, 06, 00, 01))
+                .endEventDateTime(LocalDateTime.of(2021, 03, 05, 23, 59))
+                .basePrice(100)
+                .maxPrice(200)
+                .limitOfEnrollment(100)
+                .location("강남역 D2 스타팀 팩토리")
+                .build();
 
         this.mockMvc.perform(post("/api/events")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.objectMapper.writeValueAsString(eventDto)))
+                .andDo(print())
                 .andExpect(status().isBadRequest());
     }
 
