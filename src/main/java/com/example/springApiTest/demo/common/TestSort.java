@@ -61,9 +61,9 @@ public class TestSort {
         orderConf.put("F",2);
         orderConf.put("M",0);
         orderConf.put("N",3);
-
+        // 공통코드를 가져와서 거기에 정렬순위 정보를 타입에 넣어서 그값으로 정렬정보를 가져와
+        // 아래와 같이 정렬을 한다.
         Collections.sort(subList, new Comparator<Map<String,String>>() {
-
             @Override
             public int compare(Map<String, String> o1, Map<String, String> o2) {
                 Integer order1 = (Integer) orderConf.get(o1.get("rtdOnlyYn").substring(0,1));
