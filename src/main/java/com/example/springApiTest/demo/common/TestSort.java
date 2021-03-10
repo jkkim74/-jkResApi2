@@ -1,5 +1,7 @@
 package com.example.springApiTest.demo.common;
 
+import net.minidev.json.JSONObject;
+
 import java.util.*;
 
 public class TestSort {
@@ -53,12 +55,20 @@ public class TestSort {
         baner8.put("rtdOnlyYn","F");
         baner8.put("priority","0");
         subList.add(baner8);
+        //String orderedRtd = "{\"B:0\",\"F:1\",\"M:2\",\"N:3\"}";
+        JSONObject orderConf = new JSONObject();
+        orderConf.put("B",1);
+        orderConf.put("F",2);
+        orderConf.put("M",0);
+        orderConf.put("N",3);
 
         Collections.sort(subList, new Comparator<Map<String,String>>() {
 
             @Override
             public int compare(Map<String, String> o1, Map<String, String> o2) {
-                int result = o1.get("rtdOnlyYn").compareTo(o2.get("rtdOnlyYn"));
+                Integer order1 = (Integer) orderConf.get(o1.get("rtdOnlyYn").substring(0,1));
+                Integer order2 = (Integer) orderConf.get(o2.get("rtdOnlyYn").substring(0,1));
+                int result = order1.compareTo(order2);
                 System.out.println(o1.get("rtdOnlyYn")+":"+o2.get("rtdOnlyYn")+"===>"+result);
                 if(result == 0){
                     result = o1.get("priority").compareTo(o2.get("priority")) * -1;
