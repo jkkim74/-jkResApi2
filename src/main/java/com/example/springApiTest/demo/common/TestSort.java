@@ -14,6 +14,12 @@ public class TestSort {
         baner1.put("priority","0");
         subList.add(baner1);
 
+        Map<String,String> baner4 = new HashMap<>();
+        baner4.put("title","TEST4");
+        baner4.put("rtdOnlyYn","N");
+        baner4.put("priority","1");
+        subList.add(baner4);
+
         Map<String,String> baner2 = new HashMap<>();
         baner2.put("title","TEST2");
         baner2.put("rtdOnlyYn","B");
@@ -26,28 +32,22 @@ public class TestSort {
         baner3.put("priority","0");
         subList.add(baner3);
 
-        Map<String,String> baner4 = new HashMap<>();
-        baner4.put("title","TEST4");
-        baner4.put("rtdOnlyYn","N");
-        baner4.put("priority","1");
-        subList.add(baner4);
-
         Map<String,String> baner5 = new HashMap<>();
         baner5.put("title","TEST5");
         baner5.put("rtdOnlyYn","M4");
-        baner5.put("priority","0");
+        baner5.put("priority","1");
         subList.add(baner5);
 
         Map<String,String> baner6 = new HashMap<>();
         baner6.put("title","TEST6");
         baner6.put("rtdOnlyYn","M5");
-        baner6.put("priority","0");
+        baner6.put("priority","2");
         subList.add(baner6);
 
         Map<String,String> baner7 = new HashMap<>();
         baner7.put("title","TEST7");
         baner7.put("rtdOnlyYn","M6");
-        baner7.put("priority","0");
+        baner7.put("priority","3");
         subList.add(baner7);
 
         Map<String,String> baner8 = new HashMap<>();
@@ -70,9 +70,9 @@ public class TestSort {
                 Integer order2 = (Integer) orderConf.get(o2.get("rtdOnlyYn").substring(0,1));
                 int result = order1.compareTo(order2);
                 System.out.println(o1.get("rtdOnlyYn")+":"+o2.get("rtdOnlyYn")+"===>"+result);
-                if(result == 0){
-                    result = o1.get("priority").compareTo(o2.get("priority")) * -1;
-                }
+               // if(result == 0){
+               //     result = o1.get("priority").compareTo(o2.get("priority")) * -1;
+                //}
                 return result;
             }
         });
