@@ -60,14 +60,14 @@ public class TestSort {
         orderConf.put("B",1);
         orderConf.put("F",2);
         orderConf.put("M",0);
-        orderConf.put("N",3);
+        //orderConf.put("N",3);
         // 공통코드를 가져와서 거기에 정렬순위 정보를 타입에 넣어서 그값으로 정렬정보를 가져와
         // 아래와 같이 정렬을 한다.
         Collections.sort(subList, new Comparator<Map<String,String>>() {
             @Override
             public int compare(Map<String, String> o1, Map<String, String> o2) {
-                Integer order1 = (Integer) orderConf.get(o1.get("rtdOnlyYn").substring(0,1));
-                Integer order2 = (Integer) orderConf.get(o2.get("rtdOnlyYn").substring(0,1));
+                Integer order1 = (Integer) orderConf.getOrDefault(o1.getOrDefault("rtdOnlyYn","N").substring(0,1),10);
+                Integer order2 = (Integer) orderConf.getOrDefault(o2.getOrDefault("rtdOnlyYn","N").substring(0,1),10);
                 int result = order1.compareTo(order2);
                 System.out.println(o1.get("rtdOnlyYn")+":"+o2.get("rtdOnlyYn")+"===>"+result);
                // if(result == 0){
