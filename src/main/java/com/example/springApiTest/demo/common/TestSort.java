@@ -3,6 +3,7 @@ package com.example.springApiTest.demo.common;
 import net.minidev.json.JSONObject;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TestSort {
 
@@ -56,26 +57,43 @@ public class TestSort {
         baner8.put("priority","0");
         subList.add(baner8);
         //String orderedRtd = "{\"B:0\",\"F:1\",\"M:2\",\"N:3\"}";
-        JSONObject orderConf = new JSONObject();
-        orderConf.put("B",1);
-        orderConf.put("F",2);
-        orderConf.put("M",0);
-        //orderConf.put("N",3);
-        // 공통코드를 가져와서 거기에 정렬순위 정보를 타입에 넣어서 그값으로 정렬정보를 가져와
-        // 아래와 같이 정렬을 한다.
-        Collections.sort(subList, new Comparator<Map<String,String>>() {
-            @Override
-            public int compare(Map<String, String> o1, Map<String, String> o2) {
-                Integer order1 = (Integer) orderConf.getOrDefault(o1.getOrDefault("rtdOnlyYn","N").substring(0,1),10);
-                Integer order2 = (Integer) orderConf.getOrDefault(o2.getOrDefault("rtdOnlyYn","N").substring(0,1),10);
+        try {
+            JSONObject orderConf = new JSONObject();
+            orderConf.put("B", 1);
+            orderConf.put("F", 2);
+            orderConf.put("M", 0);
+
+            List<ComCode> codeList = new ArrayList<>();
+            ComCode code = ComCode.builder().codeId("BIRTHDAY").codeValue("B").codeType("0").build();
+            ComCode code1 = ComCode.builder().codeId("FOREIGNER").codeValue("F").codeType("1").build();
+            ComCode code2 = ComCode.builder().codeId("VIP_PLUS_M3").codeValue("M3").codeType("2").build();
+            ComCode code3 = ComCode.builder().codeId("VIP_PLUS_M4").codeValue("M4").codeType("3").build();
+            ComCode code4 = ComCode.builder().codeId("VIP_PLUS_M5").codeValue("M5").codeType("4").build();
+            ComCode code5 = ComCode.builder().codeId("VIP_PLUS_M6").codeValue("M6").codeType("5").build();
+            ComCode code6 = ComCode.builder().codeId("VIP_PLUS_M6").codeValue("M6").codeType("6").build();
+            codeList.add(code);
+            codeList.add(code1);
+            codeList.add(code2);
+            codeList.add(code3);
+            codeList.add(code4);
+            codeList.add(code5);
+            codeList.add(code6);
+            Map<String,Object> priBanCodeMap = codeList.stream().collect(Collectors.toMap(a -> a.getCodeValue(), b -> b.getCodeType()));
+            //orderConf.put("N",3);
+            // 공통코드를 가져와서 거기에 정렬순위 정보를 타입에 넣어서 그값으로 정렬정보를 가져와
+            // 아래와 같이 정렬을 한다.
+            Collections.sort(subList, (o1, o2) -> {
+                Integer order1 = (Integer) priBanCodeMap.getOrDefault(o1.getOrDefault("rtdOnlyYn", "N"), 10);
+                Integer order2 = (Integer) priBanCodeMap.getOrDefault(o2.getOrDefault("rtdOnlyYn", "N"), 10);
                 int result = order1.compareTo(order2);
-                System.out.println(o1.get("rtdOnlyYn")+":"+o2.get("rtdOnlyYn")+"===>"+result);
-               // if(result == 0){
-               //     result = o1.get("priority").compareTo(o2.get("priority")) * -1;
-                //}
+                System.out.println(o1.get("rtdOnlyYn") + ":" + o2.get("rtdOnlyYn") + "===>" + result);
                 return result;
-            }
-        });
+            });
+        }catch(IllegalArgumentException ie){
+            System.out.println("Sorting IllegalArgumentException Happend");
+        }catch(Exception e){
+            System.out.println("Sorting Exception Happend");
+        }
 
         for (Map<String,String> baner : subList) {
             System.out.println(baner);
